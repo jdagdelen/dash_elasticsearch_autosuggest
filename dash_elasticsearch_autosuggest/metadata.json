@@ -1,0 +1,211 @@
+{
+  "src/lib/components/ESAutosuggest.react.js": {
+    "description": "ESAutosuggest is a composition with Reach Autosuggest (RA), \nwhich is a WAI-ARIA compliant autosuggest component built in React.\nThis component allows the user to connect RA with Elasticsearch\nto provide real-time suggestions to the user.",
+    "displayName": "Autocomplete",
+    "methods": [
+      {
+        "name": "propsToState",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "newProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onKeyPress",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "renderSuggestion",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "suggestion",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          },
+          {
+            "name": "{ newValue }",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onSuggestionsFetchRequested",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "{ value }",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onSuggestionsClearRequested",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getSuggestionValue",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "suggestion",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "value": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The value displayed in the input"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
+      },
+      "endpoint": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ElasticSearch endpoint",
+        "defaultValue": {
+          "value": "\"http://localhost:9200\"",
+          "computed": false
+        }
+      },
+      "fields": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "The ElasticSearch fields to search on (e.g. ['fullName', 'shortCode'])"
+      },
+      "defaultField": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The default field which contains the value that should be autocompleted"
+      },
+      "sort": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "How ElasticSearch should sort the results (e.g. ['_score', { createdDate: 'desc' }])",
+        "defaultValue": {
+          "value": "['_score']",
+          "computed": false
+        }
+      },
+      "placeholder": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Placeholder string"
+      },
+      "suggestions": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "Placeholder string",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "n_submit": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of times the `Enter` key was pressed while the input had focus.",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "n_submit_timestamp": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Last time that `Enter` was pressed.",
+        "defaultValue": {
+          "value": "-1",
+          "computed": false
+        }
+      },
+      "authUser": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Username for Elasticsearch."
+      },
+      "authPass": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Password for Elasticsearch."
+      },
+      "searchField": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Field which query endpoint is matching against (e.g. \"name.edgengram\")"
+      }
+    }
+  }
+}
