@@ -122,6 +122,10 @@ export default class Autocomplete extends Component {
       defaultField,
       setProps, 
       debounce,
+      autoFocus,
+      style,
+      spellCheck
+
     } = this.props;
 
     const inputProps = {
@@ -129,7 +133,10 @@ export default class Autocomplete extends Component {
         value, 
         onChange: this.onChange,
         onKeyPress: this.onKeyPress,
-        autoComplete: "off"
+        autoComplete: "off",
+        autoFocus: autoFocus,
+        style:style,
+        spellCheck:spellCheck
     }
 
     return (
@@ -151,7 +158,8 @@ Autocomplete.defaultProps = {
   n_submit_timestamp: -1,
   sort: ['_score'],
   suggestions: [],
-  endpoint: "http://localhost:9200" // Default for ElasticSearch
+  endpoint: "http://localhost:9200", // Default for ElasticSearch
+  autoFocus: false
 };
 
 Autocomplete.propTypes = {
@@ -222,4 +230,25 @@ Autocomplete.propTypes = {
      * Field which query endpoint is matching against (e.g. "name.edgengram")
      */
     searchField: PropTypes.string,
+
+    /**
+     * Whether the cursor should automatically be set inside this component. Default is false.
+     */
+    autoFocus: PropTypes.bool,
+
+    /**
+     * Setting the value of this attribute to true indicates that the element needs to have its spelling and grammar checked. 
+     * The value default indicates that the element is to act according to a default behavior, possibly based on the parent 
+     * element's own spellcheck value. The value false indicates that the element should not be checked.
+     */
+    spellCheck: PropTypes.oneOfType([
+        // enumerated property, not a boolean property: https://www.w3.org/TR/html51/editing.html#spelling-and-grammar-checking
+        PropTypes.oneOf(['true', 'false']),
+        PropTypes.bool,
+    ]),
+
+    /**
+     * The input's inline styles
+     */
+    style: PropTypes.object,
 };
