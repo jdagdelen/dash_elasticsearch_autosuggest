@@ -21,7 +21,8 @@ export default class Autocomplete extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {value: '', suggestions: []}
+        this.state = {value: '', suggestions: []};
+        this.setState({value: '', suggestions: []});
         this.propsToState = this.propsToState.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -32,7 +33,10 @@ export default class Autocomplete extends Component {
     }
 
     propsToState(newProps) {
-        this.setState({value: newProps.value, suggestions: newProps.suggestions});
+        this.setState({
+            value: newProps.value !== null ? newProps.value : '',
+            suggestions: newProps.suggestions
+        });
     }
 
     componentWillReceiveProps(newProps) {
@@ -41,9 +45,6 @@ export default class Autocomplete extends Component {
 
     componentWillMount() {
         this.propsToState(this.props);
-    }
-
-    componentWillMount() {
         this.onSuggestionsFetchRequested = debounce(
             500,
             this.onSuggestionsFetchRequested
@@ -63,20 +64,21 @@ export default class Autocomplete extends Component {
 
 // TODO: Make this more general so it can handle arbitrary returned data (multiple keys)
     renderSuggestion(suggestion) {
-        if (this.props.additionalField !== null){
+        if (this.props.additionalField !== null) {
             return (
-            <span>{suggestion[this.props.defaultField] + ' [' + suggestion[this.props.additionalField] + ']'}</span>
-        )
-        }
-        else {
-            return(suggestion[this.props.defaultField])
+                <span>{
+                    parse("%s [%s]",
+                        suggestion[this.props.defaultField],
+                        suggestion[this.props.additionalField])}</span>
+            )
+        } else {
+            return (suggestion[this.props.defaultField])
         }
 
     }
 
     onChange(event, {newValue}) {
-        this.setState({value: newValue})
-        this.props.setProps({value: newValue})
+        this.setState({value: newValue});
     }
 
     /*
@@ -85,11 +87,11 @@ export default class Autocomplete extends Component {
     onSuggestionsFetchRequested({value}) {
         const config = {auth: {username: this.props.authUser, password: this.props.authPass},};
 
-        searchterm = ''
+        let searchterm = '';
         if (value.includes(", ")) {
-            var searchterm = value.substring(value.lastIndexOf(", ") + 2, value.length);
+            searchterm = value.substring(value.lastIndexOf(", ") + 2, value.length);
         } else {
-            var searchterm = value;
+            searchterm = value;
         }
 
         axios
@@ -118,16 +120,17 @@ export default class Autocomplete extends Component {
     }
 
     getSuggestionValue(suggestion) {
+        let prefix = "";
         if (this.state.value.includes(", ")) {
-            var prefix = this.state.value.substring(0, this.state.value.lastIndexOf(", ") + 2);
+            prefix = this.state.value.substring(0, this.state.value.lastIndexOf(", ") + 2);
         } else {
-            var prefix = ""
+            prefix = "";
         }
         return (prefix + suggestion[this.props.defaultField])
     }
 
     render() {
-        const {suggestions, value} = this.state
+        const {suggestions, value} = this.state;
         const {
             id,
             endpoint,
@@ -153,11 +156,12 @@ export default class Autocomplete extends Component {
             autoFocus: autoFocus,
             style: style,
             spellCheck: spellCheck
-        }
+        };
 
         return (
             <Autosuggest
                 suggestions={suggestions}
+                value={value}
                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                 onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                 onKeyPress={this.onKeyPress}
@@ -170,6 +174,7 @@ export default class Autocomplete extends Component {
 }
 
 Autocomplete.defaultProps = {
+    value: "",
     n_submit: 0,
     n_submit_timestamp: -1,
     sort: ['_score'],

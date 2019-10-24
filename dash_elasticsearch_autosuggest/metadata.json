@@ -100,7 +100,11 @@
           "name": "string"
         },
         "required": false,
-        "description": "The value displayed in the input"
+        "description": "The value displayed in the input",
+        "defaultValue": {
+          "value": "\"\"",
+          "computed": false
+        }
       },
       "setProps": {
         "type": {
