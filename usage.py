@@ -17,6 +17,7 @@ app.layout = html.Div([
         endpoint='...',
         fields=fields,
         defaultField=fields[0],
+        addtionalField=None,
         sort=["_score"],
         placeholder='',
         suggestions=[], 

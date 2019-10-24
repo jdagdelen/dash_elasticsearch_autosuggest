@@ -1,6 +1,6 @@
 {
   "src/lib/components/ESAutosuggest.react.js": {
-    "description": "ESAutosuggest is a composition with Reach Autosuggest (RA), \nwhich is a WAI-ARIA compliant autosuggest component built in React.\nThis component allows the user to connect RA with Elasticsearch\nto provide real-time suggestions to the user.",
+    "description": "ESAutosuggest is a composition with Reach Autosuggest (RA),\nwhich is a WAI-ARIA compliant autosuggest component built in React.\nThis component allows the user to connect RA with Elasticsearch\nto provide real-time suggestions to the user.",
     "displayName": "Autocomplete",
     "methods": [
       {
@@ -49,7 +49,7 @@
             "type": null
           },
           {
-            "name": "{ newValue }",
+            "name": "{newValue}",
             "type": null
           }
         ],
@@ -61,7 +61,7 @@
         "modifiers": [],
         "params": [
           {
-            "name": "{ value }",
+            "name": "{value}",
             "type": null
           }
         ],
@@ -133,6 +133,13 @@
         },
         "required": false,
         "description": "The default field which contains the value that should be autocompleted"
+      },
+      "additionalField": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Additional field which should be displayed next to autocompleted value"
       },
       "sort": {
         "type": {
@@ -240,7 +247,7 @@
           ]
         },
         "required": false,
-        "description": "Setting the value of this attribute to true indicates that the element needs to have its spelling and grammar checked. \nThe value default indicates that the element is to act according to a default behavior, possibly based on the parent \nelement's own spellcheck value. The value false indicates that the element should not be checked."
+        "description": "Setting the value of this attribute to true indicates that the element needs to have its spelling and grammar checked.\nThe value default indicates that the element is to act according to a default behavior, possibly based on the parent\nelement's own spellcheck value. The value false indicates that the element should not be checked."
       },
       "style": {
         "type": {
