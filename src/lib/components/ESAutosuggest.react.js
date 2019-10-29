@@ -25,6 +25,7 @@ export default class Autocomplete extends Component {
         this.setState({value: '', suggestions: []});
         this.propsToState = this.propsToState.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
+        this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
         this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
@@ -57,6 +58,15 @@ export default class Autocomplete extends Component {
                 n_submit: this.props.n_submit + 1,
                 n_submit_timestamp: Date.now(),
                 value: this.state.value,
+            };
+            this.props.setProps(payload);
+        }
+    }
+
+    onSuggestionSelected(event, {suggestionValue, method}) {
+        if (method === 'enter' || method === 'click') {
+            const payload = {
+                value: suggestionValue,
             };
             this.props.setProps(payload);
         }
@@ -152,6 +162,7 @@ export default class Autocomplete extends Component {
             value,
             onChange: this.onChange,
             onKeyPress: this.onKeyPress,
+            onSuggestionSelected: this.onSuggestionSelected,
             autoComplete: "off",
             autoFocus: autoFocus,
             style: style,
@@ -165,6 +176,7 @@ export default class Autocomplete extends Component {
                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                 onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                 onKeyPress={this.onKeyPress}
+                onSuggestionSelected={this.onSuggestionSelected}
                 getSuggestionValue={this.getSuggestionValue}
                 renderSuggestion={this.renderSuggestion}
                 inputProps={inputProps}

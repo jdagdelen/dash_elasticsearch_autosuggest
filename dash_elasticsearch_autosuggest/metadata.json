@@ -28,6 +28,22 @@
         "returns": null
       },
       {
+        "name": "onSuggestionSelected",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          },
+          {
+            "name": "{suggestionValue, method}",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
         "name": "renderSuggestion",
         "docblock": null,
         "modifiers": [],
