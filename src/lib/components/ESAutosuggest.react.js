@@ -60,11 +60,6 @@ export default class Autocomplete extends Component {
                 value: this.state.value,
             };
             this.props.setProps(payload);
-        } else {
-            const payload = {
-                value: this.state.value,
-            };
-            this.props.setProps(payload);
         }
     }
 
