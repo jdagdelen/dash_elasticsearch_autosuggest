@@ -296,7 +296,7 @@ Autocomplete.propTypes = {
     /**
      * Number of suggestions to display
      */
-    nSuggestions: PropTypes.number,
+    numSuggestions: PropTypes.number,
 
     /**
      * Number of times the `Enter` key was pressed while the input had focus.

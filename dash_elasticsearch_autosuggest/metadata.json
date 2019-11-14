@@ -216,6 +216,13 @@
           "computed": false
         }
       },
+      "numSuggestions": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Number of suggestions to display"
+      },
       "n_submit": {
         "type": {
           "name": "number"
