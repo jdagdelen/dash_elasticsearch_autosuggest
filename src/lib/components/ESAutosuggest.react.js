@@ -152,7 +152,7 @@ export default class Autocomplete extends Component {
                     // }
                 },
                 sort: this.props.sort,
-                size: 20
+                size: this.props.numSuggestions
             }, config)
             .then(res => {
                 // const results = res.data.hits.hits.map(h => h._source);
@@ -292,6 +292,11 @@ Autocomplete.propTypes = {
      * Placeholder string
      */
     suggestions: PropTypes.array,
+
+    /**
+     * Number of suggestions to display
+     */
+    nSuggestions: PropTypes.number,
 
     /**
      * Number of times the `Enter` key was pressed while the input had focus.
