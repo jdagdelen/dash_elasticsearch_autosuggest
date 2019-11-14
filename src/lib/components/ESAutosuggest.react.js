@@ -151,7 +151,8 @@ export default class Autocomplete extends Component {
                     //   fields: this.props.fields
                     // }
                 },
-                sort: this.props.sort
+                sort: this.props.sort,
+                size: 20
             }, config)
             .then(res => {
                 // const results = res.data.hits.hits.map(h => h._source);
