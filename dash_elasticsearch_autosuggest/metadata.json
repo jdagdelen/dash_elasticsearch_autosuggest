@@ -56,6 +56,18 @@
         "returns": null
       },
       {
+        "name": "renderSectionTitle",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "section",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
         "name": "onChange",
         "docblock": null,
         "modifiers": [],
@@ -160,6 +172,20 @@
         },
         "required": false,
         "description": "Additional field which should be displayed next to autocompleted value"
+      },
+      "multiSection": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Display single section or multiple sections of results"
+      },
+      "sectionMap": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Object that maps index name to section header"
       },
       "sort": {
         "type": {

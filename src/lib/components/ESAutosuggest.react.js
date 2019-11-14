@@ -7,8 +7,35 @@ import {debounce} from 'throttle-debounce'
 function parse(str) {
     var args = [].slice.call(arguments, 1),
         i = 0;
-
     return str.replace(/%s/g, () => args[i++]);
+}
+
+function getSectionSuggestions(section) {
+    return section.suggestions;
+}
+
+function dictToList(categories) {
+    // console.log("categories")
+    // console.log(categories)
+    var sections = [];
+    for (var key in categories) {
+        if (categories.hasOwnProperty(key)) {
+            sections.push({"title": key, "suggestions": categories[key]});
+        }
+    }
+
+    return sections
+}
+
+function groupBy(objectArray, property) {
+    return objectArray.reduce(function (acc, obj) {
+        var key = obj[property];
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+    }, {});
 }
 
 /**
@@ -30,6 +57,7 @@ export default class Autocomplete extends Component {
         this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
         this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
         this.renderSuggestion = this.renderSuggestion.bind(this);
+        this.renderSectionTitle = this.renderSectionTitle.bind(this);
         this.getSuggestionValue = this.getSuggestionValue.bind(this);
     }
 
@@ -47,7 +75,7 @@ export default class Autocomplete extends Component {
     componentWillMount() {
         this.propsToState(this.props);
         this.onSuggestionsFetchRequested = debounce(
-            500,
+            0,
             this.onSuggestionsFetchRequested
         )
     }
@@ -74,17 +102,26 @@ export default class Autocomplete extends Component {
 
 // TODO: Make this more general so it can handle arbitrary returned data (multiple keys)
     renderSuggestion(suggestion) {
-        if (this.props.additionalField !== null) {
-            return (
-                <span>{
-                    parse("%s [%s]",
-                        suggestion[this.props.defaultField],
-                        suggestion[this.props.additionalField])}</span>
-            )
-        } else {
-            return (suggestion[this.props.defaultField])
+        const source = suggestion._source;
+        if (this.props.additionalField === null) {
+            return (source[this.props.defaultField])
         }
+        const entity = source[this.props.defaultField];
+        const normalized = source[this.props.additionalField];
+        if (entity !== normalized) {
+            return (<span>{parse("%s [%s]", entity, normalized)}</span>)
+        }
+        return (<span>{parse("%s", entity)}</span>)
+    }
 
+    renderSectionTitle(section) {
+        var title = section.title;
+        if (this.props.sectionMap !== null && section.title in this.props.sectionMap) {
+            title = this.props.sectionMap[section.title];
+        }
+        return (
+            <strong>{title}</strong>
+        );
     }
 
     onChange(event, {newValue}) {
@@ -103,7 +140,6 @@ export default class Autocomplete extends Component {
         } else {
             searchterm = value;
         }
-
         axios
             .post(this.props.endpoint, {
                 query: {
@@ -118,11 +154,15 @@ export default class Autocomplete extends Component {
                 sort: this.props.sort
             }, config)
             .then(res => {
-                const results = res.data.hits.hits.map(h => h._source)
-                this.setState({suggestions: results})
+                // const results = res.data.hits.hits.map(h => h._source);
+                const results = res.data.hits.hits;
+                console.log(dictToList(groupBy(results, '_index')))
+                // this.setState({suggestions: [{"title": "Properties", "suggestions": results}]})
+                if (Array.isArray(results) && results.length > 0) {
+                    const suggestions = dictToList(groupBy(results, '_index'));
+                    this.setState({suggestions: suggestions})
+                }
             })
-        // const results = [{'original': 'subtasks', 'normalized': 'subtasks'}, {'original': 'microinclusions', 'normalized': 'microinclusions'}, {'original': 'solutions', 'normalized': 'solutions'}, {'original': 'layer interfaces', 'normalized': 'layer interface'}, {'original': 'elastic fibers', 'normalized': 'elastic fibers'}, {'original': 'multi-layer structure', 'normalized': 'multi-layer structure'}, {'original': 'nano porous', 'normalized': 'nanoporous'}, {'original': 'nano-channels', 'normalized': 'nano-channels'}, {'original': 'nanopaper', 'normalized': 'nanopaper'}, {'original': 'co-polymers', 'normalized': 'co-polymers'}, {'original': 'single - cell', 'normalized': 'single - cell'}, {'original': 'intercalates', 'normalized': 'intercalated'}, {'original': 'subsurface waters', 'normalized': 'subsurface waters'}, {'original': 'superplastic alloys', 'normalized': 'superplastic alloys'}, {'original': 'eucalypt', 'normalized': 'eucalyptus'}, {'original': 'intracrystalline', 'normalized': 'intracrystalline'}, {'original': 'porous layers', 'normalized': 'porous layer'}, {'original': 'colonies', 'normalized': 'colonies'}, {'original': 'single nanocrystals', 'normalized': 'single nanocrystals'}, {'original': 'foam surface', 'normalized': 'foam surface'}, {'original': 'pure ceramic', 'normalized': 'pure ceramic'}, {'original': 'templates', 'normalized': 'templates'}, {'original': 'thin - sheet', 'normalized': 'thin sheets'}, {'original': 'solid particles', 'normalized': 'solid particles'}, {'original': 'trialkoxysilanes', 'normalized': 'trialkoxysilanes'}, {'original': 'thin composite', 'normalized': 'thin composite'}, {'original': '2-D arrays', 'normalized': '2-D arrays'}, {'original': 'single buyer', 'normalized': 'single buyer'}, {'original': 'waterborne', 'normalized': 'waterborne'}, {'original': 'nanoaggregates', 'normalized': 'nanoaggregates'}, {'original': 'nano-dots', 'normalized': 'nano-dots'}, {'original': 'boiler', 'normalized': 'boilers'}, {'original': 'templated', 'normalized': 'templates'}, {'original': 'polypropylene composites', 'normalized': 'polypropylene composites'}, {'original': 'mono-layered', 'normalized': 'monolayer'}, {'original': 'claystones', 'normalized': 'claystone'}, {'original': 'composite - coated', 'normalized': 'composite - coated'}, {'original': 'multiphase composite', 'normalized': 'multiphase composites'}, {'original': 'subgroups', 'normalized': 'subgroup'}, {'original': 'plane arrays', 'normalized': 'plane arrays'}, {'original': 'therapeutics', 'normalized': 'therapeutics'}, {'original': 'subspectrum', 'normalized': 'subspectrum'}, {'original': 'as-spun fibres', 'normalized': 'as-spun fibres'}, {'original': 'ventricles', 'normalized': 'ventricles'}, {'original': 'water cluster', 'normalized': 'water clusters'}]
-        // this.setState({ suggestions: results })
     }
 
     onSuggestionsClearRequested() {
@@ -130,31 +170,23 @@ export default class Autocomplete extends Component {
     }
 
     getSuggestionValue(suggestion) {
+        const source = suggestion._source;
         let prefix = "";
         if (this.state.value.includes(", ")) {
             prefix = this.state.value.substring(0, this.state.value.lastIndexOf(", ") + 2);
         } else {
             prefix = "";
         }
-        return (prefix + suggestion[this.props.defaultField])
+        return (prefix + source[this.props.defaultField])
     }
 
     render() {
         const {suggestions, value} = this.state;
         const {
-            id,
-            endpoint,
-            fields,
-            sort,
             placeholder,
-            defaultField,
-            additionalField,
-            setProps,
-            debounce,
             autoFocus,
             style,
-            spellCheck
-
+            spellCheck,
         } = this.props;
 
         const inputProps = {
@@ -180,6 +212,9 @@ export default class Autocomplete extends Component {
                 getSuggestionValue={this.getSuggestionValue}
                 renderSuggestion={this.renderSuggestion}
                 inputProps={inputProps}
+                multiSection={true}
+                renderSectionTitle={this.renderSectionTitle}
+                getSectionSuggestions={getSectionSuggestions}
             />
         )
     }
@@ -231,6 +266,16 @@ Autocomplete.propTypes = {
      * Additional field which should be displayed next to autocompleted value
      */
     additionalField: PropTypes.string,
+
+    /**
+     * Display single section or multiple sections of results
+     */
+    multiSection: PropTypes.bool,
+
+    /**
+     * Object that maps index name to section header
+     */
+    sectionMap: PropTypes.object,
 
     /**
      * How ElasticSearch should sort the results (e.g. ['_score', { createdDate: 'desc' }])
