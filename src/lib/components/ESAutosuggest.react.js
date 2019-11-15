@@ -91,10 +91,11 @@ export default class Autocomplete extends Component {
         }
     }
 
-    onSuggestionSelected(event, {suggestionValue, method}) {
+    onSuggestionSelected(event, {suggestion, suggestionValue, method}) {
         if (method === 'enter' || method === 'click') {
             const payload = {
                 value: suggestionValue,
+                lastValueMeta: suggestion
             };
             this.props.setProps(payload);
         }
@@ -178,6 +179,7 @@ export default class Autocomplete extends Component {
         } else {
             prefix = "";
         }
+        // this.props.setProps({lastValueMeta: suggestion});
         return (prefix + source[this.props.defaultField])
     }
 
@@ -228,7 +230,8 @@ Autocomplete.defaultProps = {
     sort: ['_score'],
     suggestions: [],
     endpoint: "http://localhost:9200", // Default for ElasticSearch
-    autoFocus: false
+    autoFocus: false,
+    lastValueMeta: null
 };
 
 Autocomplete.propTypes = {
@@ -277,6 +280,11 @@ Autocomplete.propTypes = {
      * Object that maps index name to section header
      */
     sectionMap: PropTypes.object,
+
+    /**
+     * Metadata about the value(s) in the box.
+     */
+    lastValueMeta: PropTypes.object,
 
     /**
      * How ElasticSearch should sort the results (e.g. ['_score', { createdDate: 'desc' }])

@@ -37,7 +37,7 @@
             "type": null
           },
           {
-            "name": "{suggestionValue, method}",
+            "name": "{suggestion, suggestionValue, method}",
             "type": null
           }
         ],
@@ -186,6 +186,17 @@
         },
         "required": false,
         "description": "Object that maps index name to section header"
+      },
+      "lastValueMeta": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Metadata about the value(s) in the box.",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
       },
       "sort": {
         "type": {
