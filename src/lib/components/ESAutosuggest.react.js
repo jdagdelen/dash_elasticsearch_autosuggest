@@ -14,16 +14,23 @@ function getSectionSuggestions(section) {
     return section.suggestions;
 }
 
-function dictToList(categories) {
+function dictToList(categories, sectionOrder) {
     // console.log("categories")
-    // console.log(categories)
+    // console.log(sectionOrder)
     var sections = [];
-    for (var key in categories) {
-        if (categories.hasOwnProperty(key)) {
-            sections.push({"title": key, "suggestions": categories[key]});
+    if (sectionOrder.length > 0) {
+        sectionOrder.forEach(function(key, index, array) {
+            if (categories.hasOwnProperty(key)) {
+                sections.push({"title": key, "suggestions": categories[key]});
+            }
+        })
+    } else {
+        for (var key in categories) {
+            if (categories.hasOwnProperty(key)) {
+                sections.push({"title": key, "suggestions": categories[key]});
+            }
         }
     }
-
     return sections
 }
 
@@ -75,7 +82,7 @@ export default class Autocomplete extends Component {
     componentWillMount() {
         this.propsToState(this.props);
         this.onSuggestionsFetchRequested = debounce(
-            0,
+            this.props.debounceDelay,
             this.onSuggestionsFetchRequested
         )
     }
@@ -89,6 +96,12 @@ export default class Autocomplete extends Component {
             };
             this.props.setProps(payload);
         }
+        //  else {
+        //     const payload = {
+        //         value: this.state.value,
+        //     };
+        //     this.props.setProps(payload);
+        // }
     }
 
     onSuggestionSelected(event, {suggestion, suggestionValue, method}) {
@@ -127,6 +140,10 @@ export default class Autocomplete extends Component {
 
     onChange(event, {newValue}) {
         this.setState({value: newValue});
+        // const payload = {
+        //     value: newValue,
+        // };
+        // this.props.setProps(payload);
     }
 
     /*
@@ -158,10 +175,10 @@ export default class Autocomplete extends Component {
             .then(res => {
                 // const results = res.data.hits.hits.map(h => h._source);
                 const results = res.data.hits.hits;
-                console.log(dictToList(groupBy(results, '_index')))
+                console.log(dictToList(groupBy(results, '_index'), this.props.sectionOrder))
                 // this.setState({suggestions: [{"title": "Properties", "suggestions": results}]})
                 if (Array.isArray(results) && results.length > 0) {
-                    const suggestions = dictToList(groupBy(results, '_index'));
+                    const suggestions = dictToList(groupBy(results, '_index'), this.props.sectionOrder);
                     this.setState({suggestions: suggestions})
                 }
             })
@@ -229,9 +246,14 @@ Autocomplete.defaultProps = {
     n_submit_timestamp: -1,
     sort: ['_score'],
     suggestions: [],
-    endpoint: "http://localhost:9200", // Default for ElasticSearch
+    endpoint: "http://localhost:9200/_search", // Default for ElasticSearch
     autoFocus: false,
-    lastValueMeta: null
+    lastValueMeta: null,
+    defaultField: "autocomplete",
+    sectionMap: {},
+    searchField: "autocomplete",
+    sectionOrder: [],
+    debounceDelay: 100
 };
 
 Autocomplete.propTypes = {
@@ -348,4 +370,14 @@ Autocomplete.propTypes = {
      * The input's inline styles
      */
     style: PropTypes.object,
+
+    /**
+     * Permanent ordering of sections/indexes in the results.
+     */
+    sectionOrder: PropTypes.array,
+
+    /**
+     * Debounce delay in milliseconds.
+     */
+    debounceDelay: PropTypes.number,
 };

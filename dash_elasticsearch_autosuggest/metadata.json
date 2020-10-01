@@ -148,7 +148,7 @@
         "required": false,
         "description": "The ElasticSearch endpoint",
         "defaultValue": {
-          "value": "\"http://localhost:9200\"",
+          "value": "\"http://localhost:9200/_search\"",
           "computed": false
         }
       },
@@ -164,7 +164,11 @@
           "name": "string"
         },
         "required": false,
-        "description": "The default field which contains the value that should be autocompleted"
+        "description": "The default field which contains the value that should be autocompleted",
+        "defaultValue": {
+          "value": "\"autocomplete\"",
+          "computed": false
+        }
       },
       "additionalField": {
         "type": {
@@ -185,7 +189,11 @@
           "name": "object"
         },
         "required": false,
-        "description": "Object that maps index name to section header"
+        "description": "Object that maps index name to section header",
+        "defaultValue": {
+          "value": "{}",
+          "computed": false
+        }
       },
       "lastValueMeta": {
         "type": {
@@ -275,7 +283,11 @@
           "name": "string"
         },
         "required": false,
-        "description": "Field which query endpoint is matching against (e.g. \"name.edgengram\")"
+        "description": "Field which query endpoint is matching against (e.g. \"name.edgengram\")",
+        "defaultValue": {
+          "value": "\"autocomplete\"",
+          "computed": false
+        }
       },
       "autoFocus": {
         "type": {
@@ -319,6 +331,28 @@
         },
         "required": false,
         "description": "The input's inline styles"
+      },
+      "sectionOrder": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "Permanent ordering of sections/indexes in the results.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "debounceDelay": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Debounce delay in milliseconds.",
+        "defaultValue": {
+          "value": "100",
+          "computed": false
+        }
       }
     }
   }
