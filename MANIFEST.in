@@ -1,6 +1,8 @@
 include dash_elasticsearch_autosuggest/dash_elasticsearch_autosuggest.min.js
 include dash_elasticsearch_autosuggest/dash_elasticsearch_autosuggest.dev.js
 include dash_elasticsearch_autosuggest/metadata.json
-include dash_elasticsearch_autosuggest/package.json
+include dash_elasticsearch_autosuggest/package-info.json
 include README.md
+include LICENSE
+include package.json
 include assets/autosuggest.css
