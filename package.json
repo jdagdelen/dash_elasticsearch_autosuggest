@@ -1,6 +1,6 @@
 {
   "name": "dash_elasticsearch_autosuggest",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "React Autosuggest (WAI-ARIA compliant autosuggest component built in React) for Plotly Dash. Uses Elasticsearch to provide suggestions.",
   "main": "build/index.js",
   "scripts": {
